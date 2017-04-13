@@ -1,6 +1,8 @@
 $('body').on('click', '#submit', (e) => {
 	e.preventDefault();
-	var div = $('body').find('#results');
+
+	var div = $('body').find('#result');
+
 	div.empty();
 	const room = $('body').find('#category').val();
 	const data = 'data=' + room;
@@ -12,20 +14,24 @@ $('body').on('click', '#submit', (e) => {
 		dataType: 'json',
 		data: data,
 		success: (data) => {
+
 			console.log(JSON.stringify(data));
 			let i = 1;
 			let value = '';
 			const checkAvail = (value) => {
 				return value ? '<button class="btn btn-sm btn-success"> Room Available </button>' : '<button class="btn btn-sm btn-danger"> Room Unavailable </button>';
 			}
+
 			for(const key in data){
 				value = '<div class="row result">';
 				value += '<div class="col-md-3"> ' + i +' </div>';
 				value += '<div class="col-md-5"> ' + key + ' </div>';
+
 				value += '<div class="col-md-4">'+ checkAvail(data[key].available) +'</div>';
 				value += '</div>';
 				i += 1;
 				div.append(value);
+
 			}
 		},
 		error: (error) => {
