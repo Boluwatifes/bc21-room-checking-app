@@ -1,5 +1,7 @@
 $('body').on('click', '#submit', (e) => {
 	e.preventDefault();
+	const div = $('body').find('#results');
+	div.empty();
 	const room = $('body').find('#category').val();
 	const data = 'data=' + room;
 
@@ -10,7 +12,19 @@ $('body').on('click', '#submit', (e) => {
 		dataType: 'json',
 		data: data,
 		success: (data) => {
-			console.log(data.meeting);
+			let i = 1;
+			let value = '';
+			for(const key in data){
+				value = '<div class="row result">';
+				value += '<div class="col-md-3"> ' + i +' </div>';
+				value += '<div class="col-md-5"> ' + key + ' </div>';
+				value += '<div class="col-md-4"><button class="btn btn-sm btn-danger"> Availability: ' + key.available + ' </button></div>';
+				value += '</div>';
+				i += 1;
+				div.html((value) => {
+					return div += value;
+				})
+			}
 		},
 		error: (error) => {
 			console.log(error);
