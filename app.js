@@ -6,14 +6,13 @@ firebase.initializeApp({
     authDomain:"bc21-room-checking-app.firebaseapp.com",
     databaseURL:"https://bc21-room-checking-app.firebaseio.com",
     projectId:"bc21-room-checking-app",
-    storageBucket:"bc21-room-checking-app.appspot.com",
-    messagingSenderId:"605146574189"
 });
+
 let dbRef = firebase.database().ref();
 let app = express();
 
     app.get('/',(req,res)=>{
-        res.sendFile('index.html');
+        res.sendFile(__dirname+'/index.html');
     });
 
 
