@@ -1,6 +1,6 @@
 $('body').on('click', '#submit', (e) => {
 	e.preventDefault();
-	const div = $('body').find('#results');
+	var div = $('body').find('#results');
 	div.empty();
 	const room = $('body').find('#category').val();
 	const data = 'data=' + room;
@@ -12,18 +12,20 @@ $('body').on('click', '#submit', (e) => {
 		dataType: 'json',
 		data: data,
 		success: (data) => {
+			console.log(JSON.stringify(data));
 			let i = 1;
 			let value = '';
+			const checkAvail = (value) => {
+				return value ? '<button class="btn btn-sm btn-success"> Room Available </button>' : '<button class="btn btn-sm btn-danger"> Room Unavailable </button>';
+			}
 			for(const key in data){
 				value = '<div class="row result">';
 				value += '<div class="col-md-3"> ' + i +' </div>';
 				value += '<div class="col-md-5"> ' + key + ' </div>';
-				value += '<div class="col-md-4"><button class="btn btn-sm btn-danger"> Availability: ' + key.available + ' </button></div>';
+				value += '<div class="col-md-4">'+ checkAvail(data[key].available) +'</div>';
 				value += '</div>';
 				i += 1;
-				div.html((value) => {
-					return div += value;
-				})
+				div.append(value);
 			}
 		},
 		error: (error) => {
@@ -34,27 +36,27 @@ $('body').on('click', '#submit', (e) => {
 
 	switch(room){
 		case 'working': {
-			const url = 'http://localhost:3000/rooms/working';
+			const url = 'http://localhost:4001/rooms/working';
 			callAjax(url, room);
 			break;
 		}
 		case 'quiet' : {
-			const url = 'http://localhost:3000/rooms/quiet';
+			const url = 'http://localhost:4001/rooms/quiet';
 			callAjax(url, room);
 			break;
 		}
 		case 'games': {
-			const url = 'http://localhost:3000/rooms/games';
+			const url = 'http://localhost:4001/rooms/games';
 			callAjax(url, room);
 			break;
 		}
 		case 'learning': {
-			const url = 'http://localhost:3000/rooms/learning';
+			const url = 'http://localhost:4001/rooms/learning';
 			callAjax(url, room);
 			break;
 		}
 		case 'meeting': {
-			const url = 'http://localhost:3000/rooms/meeting';
+			const url = 'http://localhost:4001/rooms/meetings';
 			callAjax(url, room);
 			break;
 		}
